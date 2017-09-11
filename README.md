@@ -30,4 +30,4 @@ cd styles
 npm start
 ```
 
-You are all set, open the web app on your browser: http://localhost:9001/
+You are all set, open the web app on your browser: http://localhost:9000/
