@@ -10,9 +10,7 @@ const bodyParser  = require("body-parser");
 const router = express.Router();
 const dbHelper = require("./lib/dbHelper")(knex);
 const knexLogger = require('knex-logger');
-// const apiRoutes = require("./routes/api");
-// const userRoutes = require("./routes/user");
-// const profileRoutes = require("./routes/profile");
+const apiRoutes = require("./routes/api");
 
 app.use(cors());
 
@@ -29,16 +27,18 @@ app.get('/', (req, res) => {
   res.render('index');
 })
 
-// app.use('/user', userRoutes(dbHelper));
-// app.use('/profile', profileRoutes(dbHelper));
-// app.use('/api', apiRoutes(dbHelper));
+app.get('/tasks', (req, res) => {
+  res.render('index');
+})
+
+app.use('/api', apiRoutes(dbHelper));
 
 app.use('/404', (req, res, next) => {
-  res.status(404);
+  res.status(404).render('404');
 })
 
 app.use('/500', (req, res, next) => {
-  res.status(500);
+  res.status(500).render('500');
 })
 
 app.use((req, res, next) => {

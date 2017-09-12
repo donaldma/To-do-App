@@ -1,0 +1,32 @@
+.main {
+  width: 66.666666%;
+  float: right;
+}
+
+.side {
+  width: 33.333333%;
+  float: left;
+  margin-top: 55px;
+  padding-right: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .side {
+    text-align: center;
+  }
+}
+
+.panel-default>.panel-heading {
+  text-align: center;
+}
+
+.list-group-item {
+  cursor: pointer;
+  &:hover {
+    background-color: $light-grey;
+  }
+}
+
+.add-user {
+  text-align: center;
+}

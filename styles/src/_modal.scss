@@ -1,0 +1,48 @@
+.modal {
+  padding-top: 300px;
+}
+
+.modal-header {
+  padding: 10px 15px;
+}
+
+.modal-footer {
+  padding: 0 5px 5px;
+}
+
+.modal-submit {
+  float: right;
+  color: #777;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;  
+  letter-spacing: 2px;
+  width: 20%;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  transition: all 0.25s ease-out;
+}
+
+.modal-submit:hover {
+  border-color: #eee;
+  color: $dark-navyblue;
+}
+
+@media only screen and (max-width: 767px) {
+  .modal-submit {
+    width: 30%
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .form-group {
+    margin-bottom: 0px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .modal-body {
+    padding-bottom: 50px;
+  }
+}
