@@ -5,18 +5,117 @@ import { Link } from 'react-router-dom';
 import * as actions from '../actions';
 import _ from 'lodash';
 import Moment from 'react-moment';
+import SideBar from './sidebar';
+import NewUserModal from './new_user';
+import NewTaskModal from './new_task';
 
 class UserTasks extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { 
+      selectedUser: false
+    }
+  }
   componentDidMount() {
-    this.props.fetchAllTasks();
     this.props.fetchUsers();
   }
   
-  renderUsers() {
+  onSubmit = (values) => {
+    this.props.createUser(values, () => {
+      this.props.fetchUsers();
+      $('#users-modal').modal('hide');
+    });
+  }
+
+  onTaskSubmit = (values) => {
+    this.props.createTask(values, this.state.selectedUser, () => {
+      this.props.selectUserTasks(this.state.selectedUser)
+      $('#tasks-modal').modal('hide');
+    });
+  }
+
+  toggleComplete = (task, id) => {
+    this.props.toggleCompletedTrue(task, id, () => {
+      this.selectedUser(id)      
+    })
+  }
+
+  toggleNotComplete = (task, id) => {
+    this.props.toggleCompletedFalse(task, id, () => {
+      this.selectedUser(id)
+    })
+  }
+
+  selectedUser = (id) => {
+    this.props.selectUserTasks(id)
+    this.setState({ selectedUser: id })
+  }
+
+  onDeleteUserClick = (id) => {
+    this.props.deleteUser(id, () => {
+      this.props.fetchUsers();
+    })
+  }
+
+  renderUsers = () => {
     return _.map(this.props.users, (user, index) => {
       return (
-        <li key={index} className="list-group-item">{user.name}</li>
+        <li onClick={this.selectedUser.bind(this, user.id)} key={index} className="list-group-item">
+          {user.name}
+          <span className="settings-buttons">
+            <a href="#" className="delete-button" onClick={this.onDeleteUserClick.bind(this, user.id)} ><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+            <a href="#" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
+          </span>
+        </li>
       );
+    })
+  }
+
+  renderTasks() {
+    if(_.size(this.props.usersTasks) === 0) { 
+      if(this.state.selectedUser) {
+        return (
+          <div className="welcome">
+            <h3>No Tasks</h3>
+            <div className="add-button">
+              <button className="main-button" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
+            </div>
+            <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} />            
+          </div>
+        );
+      } 
+      return (
+        <div className="welcome">
+          <h3>Choose a user or add a user to begin!</h3>
+        </div>
+      );
+    }
+    
+    return _.map(this.props.usersTasks, (task, index) => {
+      if(!task.completed) {
+        return (
+          <li onClick={this.toggleComplete.bind(this, task, task.user_id)} key={index} className="list-group-item">
+            {task.name}
+            <span className="settings-buttons">
+              <a href="#" className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+              <a href="#" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
+            </span>
+            <a href="#" className="complete-button" onClick={this.toggleComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-circle-thin" aria-hidden="true"></i></a>
+          </li>
+        );
+      }
+      return (
+        <li onClick={this.toggleNotComplete.bind(this, task, task.user_id)} key={index} className="list-group-item">
+          <s>{task.name}</s>
+          <span className="settings-buttons">          
+            <a href="#" className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+            <a href="#" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
+          </span>
+          <a href="#" className="complete-button-on" onClick={this.toggleComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-check-circle" aria-hidden="true"></i></a>          
+        </li>
+      );
+      
     })
   }
 
@@ -29,6 +128,11 @@ class UserTasks extends Component {
         <label>{field.label}</label>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <input
+          onKeyPress={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+            }
+          }} 
           className="form-control"
           type="text"
           {...field.input}
@@ -41,19 +145,44 @@ class UserTasks extends Component {
     );
   }
 
-  onSubmit = (values) => {
-    this.props.createUser(values, () => {
-      this.props.fetchUsers();
-      $('#myModal').modal('hide');
-    });
-  }
-
   render() {
-    if(_.size(this.props.users) && this.props.allTasks === 0) {
+    if(_.size(this.props.users) === 0) {    
       return (
         <div className="loading">
           Loading..
         </div>
+      );
+    }
+    if(_.size(this.props.usersTasks) === 0) { 
+      return (
+        <div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="jumbotron home-jumbo">
+                <h1 className="jumbo-head">
+                  Users Tasks
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="side">
+                <SideBar renderUsers={this.renderUsers} />
+                <div className="add-button">
+                  <button className="main-button" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
+                </div>
+              </div>
+              <div className="main">
+ 
+                <ul className="list-group">
+                  {this.renderTasks()}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <NewUserModal renderField={this.renderField} onSubmit={this.onSubmit} />
+        </div> 
       );
     }
 
@@ -61,75 +190,44 @@ class UserTasks extends Component {
       <div>
         <div className="row">
           <div className="col-md-12">
+            <div className="jumbotron home-jumbo">
+              <h1 className="jumbo-head">
+                Users Tasks
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
             <div className="side">
-              <div className="panel panel-default">
-                <div className="panel-heading"><input type="text" className="form-control" placeholder="Search" /></div>
-                <ul className="list-group">
-                  {this.renderUsers()}
-                </ul>
-              </div>
-              <div className="add-user">
-                <button className="main-button" data-toggle="modal" data-target="#myModal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
+              <SideBar renderUsers={this.renderUsers} />            
+              <div className="add-button">
+                <button className="main-button" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
               </div>
             </div>
             <div className="main">
-              <div className="jumbotron">
-                <h1>
-                  Users Tasks
-                </h1>
+              <ul className="list-group">
+                {this.renderTasks()}
+              </ul>
+              <div className="add-button">
+                <button className="main-button" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
               </div>
             </div>
           </div>
         </div>
-        <div className="modal fade" id="myModal" role="dialog">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h4 className="modal-title">New User</h4>
-                </div>
-                <div className="modal-body">
-                  <form className="form-inline" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                    <Field
-                      label="Enter a name:"
-                      name="name"
-                      component={this.renderField}
-                    />
-                  <button type="submit" className="modal-submit">Add</button>                    
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+        <NewUserModal renderField={this.renderField} onSubmit={this.onSubmit} />
+        <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} />
       </div>   
     );
   }
 }
 
-function validate(values) {
-  const errors = {};
-
-  if (!values.name) {
-    errors.name = "Enter a Name!";
-  }
-
-  return errors;
-}
-
 function mapStateToProps(state) {
   return {
-    allTasks: state.allTasks,
-    users: state.users
+    users: state.users,
+    usersTasks: state.usersTasks    
   }
 }
 
-const afterSubmit = (result, dispatch) => {
-  dispatch(reset('UsersNewForm'));
-}
 
-export default reduxForm({
-  validate,
-  form: 'UsersNewForm',
-  onSubmitSuccess: afterSubmit,
-})(
-  connect(mapStateToProps, actions)(UserTasks)
-);
+export default connect(mapStateToProps, actions)(UserTasks)

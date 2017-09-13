@@ -11,7 +11,9 @@ class AllTasks extends Component {
   }
   
   renderTasks() {
-    return _.map(this.props.allTasks, (task, index) => {
+    const orderedTasks = _.orderBy(this.props.allTasks, 'created_at', 'desc')
+    
+    return _.map(orderedTasks, (task, index) => {
       if(!task.completed) {
         return (
           <tr key={index}>
@@ -45,7 +47,7 @@ class AllTasks extends Component {
       <div className="row">
         <div className="col-md-12">
           <div className="jumbotron">
-            <h1>
+            <h1 className="jumbo-head">
               All Tasks
             </h1>
           </div>

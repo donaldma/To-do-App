@@ -6,7 +6,6 @@
 .side {
   width: 33.333333%;
   float: left;
-  margin-top: 55px;
   padding-right: 10px;
 }
 
@@ -21,12 +20,53 @@
 }
 
 .list-group-item {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;    
   cursor: pointer;
   &:hover {
     background-color: $light-grey;
+    .settings-buttons {
+      display: inline;
+    }
   }
 }
 
-.add-user {
+.list-group-item:first-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.add-button {
+  text-align: center;
+}
+
+.home-jumbo {
+  margin-bottom: 0px;
+}
+
+.jumbo-head {
+  font-weight: 800;
+	color: #ffffff;
+	text-transform: uppercase;
+	font-size: 60px;
+	text-shadow: rgba(0,0,0,0.498039) 2px 2px 2px;
+	letter-spacing: 0.03em;
+}
+
+.jumbo-sub {
+  font-style: italic;
+  font-size: 20px;
+  padding-left: 30px;
+}
+
+@media only screen and (max-width: 767px) {
+  .jumbo-sub {
+    display: block;
+    padding-left: 10px;
+  }
+}
+
+.welcome {
   text-align: center;
 }
