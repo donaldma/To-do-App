@@ -10,7 +10,7 @@ class NavBar extends Component {
     if(_.size(this.props.users) === 0) {
       return(
         <li className="no-users-found">
-          No users Found
+          Loading...
         </li>
       );
     }
