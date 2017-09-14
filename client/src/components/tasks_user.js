@@ -8,7 +8,6 @@ import Moment from 'react-moment';
 import SideBar from './sidebar';
 import NewUserModal from './new_user';
 import NewTaskModal from './new_task';
-import EditTaskModal from './edit_task';
 
 class UserTasks extends Component {
   constructor(props) {
@@ -41,7 +40,7 @@ class UserTasks extends Component {
     });
   }
 
-  /* ==== SUBMIT HANDLER FOR EDIT USER ==== */  
+  /* ==== SUBMIT HANDLER FOR EDIT USER (NOT USED ATM) ==== */  
 
   onEditTaskSubmit = (values, id) => {
     this.props.editTask(values, this.state.selectedUser, () => {
@@ -91,15 +90,6 @@ class UserTasks extends Component {
     })
   }
 
-  showEditTask = () => {
-    $('#edit-task-modal').modal('show');
-  }
-
-
-  /* ==== RENDER USER SIDEBAR ==== */
-
-
-
   /* ==== RENDER TASKS ==== */
 
   renderTasks() {
@@ -128,11 +118,10 @@ class UserTasks extends Component {
       if(!task.completed) {
         /* ==== IF USER HAS TASKS THAT ARE NOT COMPLETED ==== */
         return (
-          <li key={index} className="list-group-item">
+          <li key={index} onClick={this.toggleComplete.bind(this, task, task.users_id)} className="list-group-item">
             {task.name}
             <span className="settings-buttons">
               <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.users_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
-              <a href="#" data-toggle="modal" data-target="#edit-task-modal" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
             </span>
             <a href="#" className="complete-button" onClick={this.toggleComplete.bind(this, task, task.users_id)} ><i className="fa fa-lg fa-circle-thin" aria-hidden="true"></i></a>
           </li>
@@ -140,11 +129,10 @@ class UserTasks extends Component {
       }
       /* ==== IF USER HAS TASKS THAT ARE COMPLETED ==== */
       return (
-        <li key={index} className="list-group-item">
+        <li key={index} onClick={this.toggleNotComplete.bind(this, task, task.users_id)} className="list-group-item">
           <s>{task.name}</s>
           <span className="settings-buttons">          
             <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.users_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
-            <a href="#" data-toggle="modal" data-target="#edit-task-modal" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
           </span>
           <a href="#" className="complete-button-on" onClick={this.toggleNotComplete.bind(this, task, task.users_id)} ><i className="fa fa-lg fa-check-circle" aria-hidden="true"></i></a>          
         </li>
@@ -248,7 +236,6 @@ class UserTasks extends Component {
             </div>
           </div>
         </div>
-        <EditTaskModal renderField={this.renderField} onSubmit={this.onEditTaskSubmit} />        
         <NewUserModal renderField={this.renderField} onSubmit={this.onSubmit} />
         <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} />
       </div>   
