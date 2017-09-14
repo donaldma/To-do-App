@@ -42,8 +42,9 @@ module.exports = (knex) => {
     },
 
     getUsersTasks: (id) => {
-      return knex('tasks')
-        .where({ users_id : id })
+      return knex.select('tasks.id', 'tasks.name', 'tasks.completed', 'tasks.created_at', 'tasks.users_id', 'users.name as user')
+      .from('users')
+      .innerJoin('tasks', 'users_id', parseInt(id))
     },
 
     createTask: (data, id) => {

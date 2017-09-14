@@ -25,6 +25,10 @@ class UserTasks extends Component {
   /* ==== SUBMIT HANDLER FOR NEW USERS ==== */  
   
   onSubmit = (values) => {
+    if(_.findKey(this.props.users, { 'name': values.name })) {
+      alert('Users must be unique (Case sensitive)')
+      return false;
+    }    
     this.props.createUser(values, () => {
       this.props.fetchUsers();
       $('#users-modal').modal('hide');
@@ -171,7 +175,6 @@ class UserTasks extends Component {
 
   render() {
     /* ==== IF NO USER IS SELECTED DO NOT SHOW ADD NEW TASK BUTTON ==== */  
-    
     if(_.size(this.props.usersTasks) === 0) { 
       return (
         <div>
@@ -193,7 +196,6 @@ class UserTasks extends Component {
                 </div>
               </div>
               <div className="main">
- 
                 <ul className="list-group">
                   {this.renderTasks()}
                 </ul>
@@ -204,16 +206,16 @@ class UserTasks extends Component {
         </div> 
       );
     }
-
+    
     /* ==== IF A USER IS SELECTED SHOW ADD NEW TASK BUTTON ==== */  
-
+    
     return(
       <div>
         <div className="row">
           <div className="col-md-12">
             <div className="jumbotron home-jumbo">
               <h1 className="jumbo-head">
-                Users Tasks
+                Users Tasks<span className="jumbo-sub">{this.props.usersTasks.user}</span>
               </h1>
             </div>
           </div>
