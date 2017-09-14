@@ -85,6 +85,7 @@ class UserTasks extends Component {
 
   onDeleteUserClick = (id) => {
     this.props.deleteUser(id, () => {
+      this.props.fetchUsers();    
       this.props.clearState();
       this.setState({ selectedUser: false })
     })
