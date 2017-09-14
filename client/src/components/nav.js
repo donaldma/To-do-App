@@ -6,13 +6,6 @@ import * as actions from '../actions';
 import SideNav from 'react-simple-sidenav';
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showNav: false
-    }
-  }
-
   renderUsers = () => {
     if(_.size(this.props.users) === 0) {
       return(
@@ -32,10 +25,6 @@ class NavBar extends Component {
   }
 
   render() {
-    // if(_.size(this.props.users) === 0) {
-    //   return <div>Loading..</div>
-    // }
-    // console.log(this.props.users)
     if(_.size(this.props.users) === 0) {
       return (
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -44,7 +33,7 @@ class NavBar extends Component {
               <ul className="navbar-toggle nav-logo">
                 <li><a href="/">To Do</a></li>
               </ul> 
-              <button onClick={ () => this.setState({ showNav: true })} type="button" className="navbar-toggle nav-menu" data-toggle="collapse" data-target="#myNavbar">
+              <button type="button" className="navbar-toggle nav-menu" data-toggle="collapse" data-target="#myNavbar">
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>                        

@@ -2,6 +2,12 @@
   padding-top: 300px;
 }
 
+@media only screen and (max-width: 767px) {
+  .modal {
+    padding-top: 200px;
+  }
+}
+
 .modal-header {
   padding: 10px 15px;
 }
