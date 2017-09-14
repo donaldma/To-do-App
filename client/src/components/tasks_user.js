@@ -85,8 +85,8 @@ class UserTasks extends Component {
 
   onDeleteUserClick = (id) => {
     this.props.deleteUser(id, () => {
-      this.props.fetchUsers();
-      this.props.selectUserTasks(null)    
+      this.props.clearState();
+      this.setState({ selectedUser: false })
     })
   }
 
@@ -198,7 +198,7 @@ class UserTasks extends Component {
           <div className="row">
             <div className="col-md-12">
               <div className="side">
-                <SideBar selectedUser={this.selectedUser} />
+                <SideBar selectedUser={this.selectedUser} onDeleteUserClick={this.onDeleteUserClick} />
                 <div className="add-button">
                   <button className="main-button" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
                 </div>
@@ -232,7 +232,7 @@ class UserTasks extends Component {
         <div className="row">
           <div className="col-md-12">
             <div className="side">
-              <SideBar selectedUser={this.selectedUser}  />            
+              <SideBar selectedUser={this.selectedUser} onDeleteUserClick={this.onDeleteUserClick} />            
               <div className="add-button">
                 <button className="main-button" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
               </div>

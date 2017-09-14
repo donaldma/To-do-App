@@ -11,6 +11,7 @@ export const CREATE_TASK = 'create_task';
 export const DELETE_TASK = 'delete_task';
 export const EDIT_TASK = 'edit_task';
 export const SEARCH_USER = 'search_user';
+export const CLEAR_STATE = 'clear_state';
 
 export function fetchAllTasks() {
   const request = axios.get('/api/all');
@@ -119,12 +120,8 @@ export function searchUser(name, callback) {
   }
 }
 
-// export function clearSearch(name, callback) {
-//   const request = axios.get(`/api/users/search/${name}`)
-//     // .then(() => callback());
-
-//   return {
-//     type: SEARCH_USER,
-//     payload: request
-//   }
-// }
+export function clearState() {
+  return {
+    type: CLEAR_STATE
+  }
+}
