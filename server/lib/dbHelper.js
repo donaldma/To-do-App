@@ -21,6 +21,20 @@ module.exports = (knex) => {
         })
     },
 
+    searchUser: (name) => {
+      return knex.raw(
+        `select * from users where lower(name) = lower('${name}')`
+      )
+    },
+
+    updateUser: (data, id) => {
+      return knex('users')
+        .update({
+          name: data.name
+        })
+        .where({ id })
+    },
+
     deleteUser: (id) => {
       return knex('users')
         .where({ id })
@@ -39,6 +53,12 @@ module.exports = (knex) => {
           user_id: id,
           completed: false
         })
+    },
+
+    deleteTask: (id) => {
+      return knex('tasks')
+        .where({ id })
+        .del()
     },
 
     toggleTrue: (task_id) => {

@@ -8,6 +8,7 @@ import Moment from 'react-moment';
 import SideBar from './sidebar';
 import NewUserModal from './new_user';
 import NewTaskModal from './new_task';
+import EditTaskModal from './edit_task';
 
 class UserTasks extends Component {
   constructor(props) {
@@ -17,9 +18,12 @@ class UserTasks extends Component {
       selectedUser: false
     }
   }
+
   componentDidMount() {
     this.props.fetchUsers();
   }
+  
+  /* ==== SUBMIT HANDLER FOR NEW USERS ==== */  
   
   onSubmit = (values) => {
     this.props.createUser(values, () => {
@@ -28,6 +32,8 @@ class UserTasks extends Component {
     });
   }
 
+  /* ==== SUBMIT HANDLER FOR NEW TASKS ==== */  
+
   onTaskSubmit = (values) => {
     this.props.createTask(values, this.state.selectedUser, () => {
       this.props.selectUserTasks(this.state.selectedUser)
@@ -35,11 +41,24 @@ class UserTasks extends Component {
     });
   }
 
+  /* ==== SUBMIT HANDLER FOR EDIT USER ==== */  
+
+  onEditTaskSubmit = (values, id) => {
+    this.props.editTask(values, this.state.selectedUser, () => {
+      this.props.fetchUsers();
+      $('#edit-users-modal').modal('hide');
+    });
+  }
+
+  /* ==== CHANGE COMPLETEION TO COMPLETE ==== */
+  
   toggleComplete = (task, id) => {
     this.props.toggleCompletedTrue(task, id, () => {
       this.selectedUser(id)      
     })
   }
+
+  /* ==== CHANGE COMPLETEION TO NOT COMPLETE ==== */
 
   toggleNotComplete = (task, id) => {
     this.props.toggleCompletedFalse(task, id, () => {
@@ -47,33 +66,44 @@ class UserTasks extends Component {
     })
   }
 
+  /* ==== SELECT USER FUNCTION ==== */
+
   selectedUser = (id) => {
     this.props.selectUserTasks(id)
     this.setState({ selectedUser: id })
   }
 
+  /* ==== DELETE TASK FUNCTION ==== */
+
+  onDeleteTaskClick = (task, id) => {
+    this.props.deleteTask(task, id, () => {
+      this.props.selectUserTasks(id)          
+    })
+  }
+
+  /* ==== DELETE USER FUNCTION ==== */
+
   onDeleteUserClick = (id) => {
     this.props.deleteUser(id, () => {
       this.props.fetchUsers();
+      this.props.selectUserTasks(null)    
     })
   }
 
-  renderUsers = () => {
-    return _.map(this.props.users, (user, index) => {
-      return (
-        <li onClick={this.selectedUser.bind(this, user.id)} key={index} className="list-group-item">
-          {user.name}
-          <span className="settings-buttons">
-            <a href="#" className="delete-button" onClick={this.onDeleteUserClick.bind(this, user.id)} ><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
-            <a href="#" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
-          </span>
-        </li>
-      );
-    })
+  showEditTask = () => {
+    $('#edit-task-modal').modal('show');
   }
+
+
+  /* ==== RENDER USER SIDEBAR ==== */
+
+
+
+  /* ==== RENDER TASKS ==== */
 
   renderTasks() {
     if(_.size(this.props.usersTasks) === 0) { 
+      /* ==== IF USER IS SELECTED AND HAS NO TASKS ==== */
       if(this.state.selectedUser) {
         return (
           <div className="welcome">
@@ -85,6 +115,7 @@ class UserTasks extends Component {
           </div>
         );
       } 
+      /* ==== FIRST THING YOU SEE BEFORE YOU SELECT A USER ==== */
       return (
         <div className="welcome">
           <h3>Choose a user or add a user to begin!</h3>
@@ -94,30 +125,34 @@ class UserTasks extends Component {
     
     return _.map(this.props.usersTasks, (task, index) => {
       if(!task.completed) {
+        /* ==== IF USER HAS TASKS THAT ARE NOT COMPLETED ==== */
         return (
-          <li onClick={this.toggleComplete.bind(this, task, task.user_id)} key={index} className="list-group-item">
+          <li key={index} className="list-group-item">
             {task.name}
             <span className="settings-buttons">
-              <a href="#" className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
-              <a href="#" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
+              <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.user_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+              <a href="#" data-toggle="modal" data-target="#edit-task-modal" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
             </span>
             <a href="#" className="complete-button" onClick={this.toggleComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-circle-thin" aria-hidden="true"></i></a>
           </li>
         );
       }
+      /* ==== IF USER HAS TASKS THAT ARE COMPLETED ==== */
       return (
-        <li onClick={this.toggleNotComplete.bind(this, task, task.user_id)} key={index} className="list-group-item">
+        <li key={index} className="list-group-item">
           <s>{task.name}</s>
           <span className="settings-buttons">          
-            <a href="#" className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
-            <a href="#" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
+            <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.user_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+            <a href="#" data-toggle="modal" data-target="#edit-task-modal" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
           </span>
-          <a href="#" className="complete-button-on" onClick={this.toggleComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-check-circle" aria-hidden="true"></i></a>          
+          <a href="#" className="complete-button-on" onClick={this.toggleNotComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-check-circle" aria-hidden="true"></i></a>          
         </li>
       );
       
     })
   }
+
+  /* ==== RENDER REDUX FORM FIELDS ==== */
 
   renderField(field) {
     const { meta: { touched, error } } = field;
@@ -146,13 +181,8 @@ class UserTasks extends Component {
   }
 
   render() {
-    if(_.size(this.props.users) === 0) {    
-      return (
-        <div className="loading">
-          Loading..
-        </div>
-      );
-    }
+    /* ==== IF NO USER IS SELECTED DO NOT SHOW ADD NEW TASK BUTTON ==== */  
+    
     if(_.size(this.props.usersTasks) === 0) { 
       return (
         <div>
@@ -168,7 +198,7 @@ class UserTasks extends Component {
           <div className="row">
             <div className="col-md-12">
               <div className="side">
-                <SideBar renderUsers={this.renderUsers} />
+                <SideBar selectedUser={this.selectedUser} />
                 <div className="add-button">
                   <button className="main-button" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
                 </div>
@@ -186,6 +216,8 @@ class UserTasks extends Component {
       );
     }
 
+    /* ==== IF A USER IS SELECTED SHOW ADD NEW TASK BUTTON ==== */  
+
     return(
       <div>
         <div className="row">
@@ -200,7 +232,7 @@ class UserTasks extends Component {
         <div className="row">
           <div className="col-md-12">
             <div className="side">
-              <SideBar renderUsers={this.renderUsers} />            
+              <SideBar selectedUser={this.selectedUser}  />            
               <div className="add-button">
                 <button className="main-button" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</button>
               </div>
@@ -215,6 +247,7 @@ class UserTasks extends Component {
             </div>
           </div>
         </div>
+        <EditTaskModal renderField={this.renderField} onSubmit={this.onEditTaskSubmit} />        
         <NewUserModal renderField={this.renderField} onSubmit={this.onSubmit} />
         <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} />
       </div>   

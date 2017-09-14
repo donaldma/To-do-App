@@ -15,6 +15,11 @@
   }
 }
 
+.no-users-found {
+  color: $alert-danger;
+  text-align: center
+}
+
 .panel-default>.panel-heading {
   text-align: center;
 }
@@ -23,7 +28,6 @@
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;    
-  cursor: pointer;
   &:hover {
     background-color: $light-grey;
     .settings-buttons {

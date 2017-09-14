@@ -38,8 +38,21 @@ class AllTasks extends Component {
   render() {
     if(_.size(this.props.allTasks) === 0) {
       return (
-        <div className="temp">
-          Loading..
+        <div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="jumbotron">
+                <h1 className="jumbo-head">
+                  All Tasks
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div className="row">   
+            <div className="col-md-12">                     
+              <h3 className="welcome">No Tasks</h3>
+            </div>
+          </div>
         </div>
       );
     }

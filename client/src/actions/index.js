@@ -8,6 +8,9 @@ export const USER_TASKS = 'user_tasks';
 export const TOGGLE_TRUE = 'toggle_true';
 export const TOGGLE_FALSE = 'toggle_false';
 export const CREATE_TASK = 'create_task';
+export const DELETE_TASK = 'delete_task';
+export const EDIT_TASK = 'edit_task';
+export const SEARCH_USER = 'search_user';
 
 export function fetchAllTasks() {
   const request = axios.get('/api/all');
@@ -57,28 +60,22 @@ export function createTask(values, id, callback) {
 }
 
 export function toggleCompletedTrue(task, id, callback) {
-  return dispatch => {
-    
-    const request = axios.post(`/api/updateTrue?task_id=${task.id}`)
-      .then(() => callback());
-    
-    return {
-      type: TOGGLE_TRUE,
-      payload: request
-    }
+  const request = axios.post(`/api/updateTrue?task_id=${task.id}`)
+    .then(() => callback());
+  
+  return {
+    type: TOGGLE_TRUE,
+    payload: request
   }
 }
 
 export function toggleCompletedFalse(task, id, callback) {
-  return dispatch => {
-    
-    const request = axios.post(`/api/updateFalse?task_id=${task.id}`)
-      .then(() => callback());    
-    
-    return {
-      type: TOGGLE_FALSE,
-      payload: request
-    }
+  const request = axios.post(`/api/updateFalse?task_id=${task.id}`)
+    .then(() => callback());    
+  
+  return {
+    type: TOGGLE_FALSE,
+    payload: request
   }
 }
 
@@ -91,3 +88,43 @@ export function deleteUser(id, callback) {
     payload: id
   }
 }
+
+export function deleteTask(task, id, callback) {
+  const request = axios.delete(`/api/tasks/${task.id}`)
+    .then(() => callback());
+
+  return {
+    type: DELETE_TASK,
+    payload: request
+  }
+}
+
+export function editTask(values, task, callback) {
+  const request = axios.post(`/api/task/edit/${id}`, values)
+    .then(() => callback());
+
+  return {
+    type: EDIT_TASK,
+    payload: request
+  }
+}
+
+export function searchUser(name, callback) {
+  const request = axios.get(`/api/users/search/${name}`)
+    // .then(() => callback());
+
+  return {
+    type: SEARCH_USER,
+    payload: request
+  }
+}
+
+// export function clearSearch(name, callback) {
+//   const request = axios.get(`/api/users/search/${name}`)
+//     // .then(() => callback());
+
+//   return {
+//     type: SEARCH_USER,
+//     payload: request
+//   }
+// }
