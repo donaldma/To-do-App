@@ -25,10 +25,20 @@ class UserTasks extends Component {
   /* ==== SUBMIT HANDLER FOR NEW USERS ==== */  
   
   onSubmit = (values) => {
-    if(_.findKey(this.props.users, { 'name': values.name })) {
-      alert('Users must be unique (Case sensitive)')
+    const lowerPropsUsersArr = _.map(this.props.users, user => {
+      return _.lowerCase(user.name)
+    })
+    
+    const lowerSubmittedUser = _.lowerCase(values.name);
+    function isSame(user) { 
+      return user === lowerSubmittedUser
+    }
+
+    if(lowerPropsUsersArr.some(isSame)) {
+      alert(`User ${values.name} already exists`)
       return false;
-    }    
+    }
+       
     this.props.createUser(values, () => {
       this.props.fetchUsers();
       $('#users-modal').modal('hide');
