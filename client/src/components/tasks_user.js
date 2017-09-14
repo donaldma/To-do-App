@@ -130,10 +130,10 @@ class UserTasks extends Component {
           <li key={index} className="list-group-item">
             {task.name}
             <span className="settings-buttons">
-              <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.user_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+              <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.users_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
               <a href="#" data-toggle="modal" data-target="#edit-task-modal" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
             </span>
-            <a href="#" className="complete-button" onClick={this.toggleComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-circle-thin" aria-hidden="true"></i></a>
+            <a href="#" className="complete-button" onClick={this.toggleComplete.bind(this, task, task.users_id)} ><i className="fa fa-lg fa-circle-thin" aria-hidden="true"></i></a>
           </li>
         );
       }
@@ -142,10 +142,10 @@ class UserTasks extends Component {
         <li key={index} className="list-group-item">
           <s>{task.name}</s>
           <span className="settings-buttons">          
-            <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.user_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
+            <a href="#" onClick={this.onDeleteTaskClick.bind(this, task, task.users_id)} className="delete-button"><i className="fa fa-lg fa-times-circle" aria-hidden="true"></i></a>
             <a href="#" data-toggle="modal" data-target="#edit-task-modal" className="edit-button"><i className="fa fa-lg fa-pencil" aria-hidden="true"></i></a>
           </span>
-          <a href="#" className="complete-button-on" onClick={this.toggleNotComplete.bind(this, task, task.user_id)} ><i className="fa fa-lg fa-check-circle" aria-hidden="true"></i></a>          
+          <a href="#" className="complete-button-on" onClick={this.toggleNotComplete.bind(this, task, task.users_id)} ><i className="fa fa-lg fa-check-circle" aria-hidden="true"></i></a>          
         </li>
       );
       
