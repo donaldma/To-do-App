@@ -92,3 +92,13 @@
 .welcome {
   text-align: center;
 }
+
+@media only screen and (min-width: 767px) {
+  .mobile-tasks {
+    display: none !important;
+  }
+}
+
+.mobile-tasks {
+  text-align: center;
+}

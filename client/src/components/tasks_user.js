@@ -114,9 +114,12 @@ class UserTasks extends Component {
           <div className="welcome">
             <h3>No Tasks</h3>
             <div className="add-button">
-              <button className="main-button" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
+              <button className="main-button-tasks" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
             </div>
-            <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} />            
+            <div className="mobile-tasks">
+              Please visit desktop version to add new tasks/users (Working on a solution)
+            </div>           
+            <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} /> 
           </div>
         );
       } 
@@ -243,8 +246,11 @@ class UserTasks extends Component {
                 {this.renderTasks()}
               </ul>
               <div className="add-button">
-                <button className="main-button" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
+                <button className="main-button-tasks" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
               </div>
+              <div className="mobile-tasks">
+                Please visit desktop version to add new tasks/users (Working on a solution)
+              </div>    
             </div>
           </div>
         </div>
