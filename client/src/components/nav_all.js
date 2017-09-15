@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import * as actions from '../actions';
 
-class NavBar extends Component {
+class NavBarAll extends Component {
   renderUsers = () => {
     if(_.size(this.props.users) === 0) {
       return(
@@ -17,7 +17,7 @@ class NavBar extends Component {
     return _.map(this.props.users, (user, index) => {
       return (
         <li className="mobile-nav" key={index} >
-          <a href="#" onClick={this.props.selectedUser.bind(this, user.id)} >{user.name}</a>
+          <a href="#">{user.name}</a>
         </li>
       );
     })
@@ -92,4 +92,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, actions)(NavBar)
+export default connect(mapStateToProps, actions)(NavBarAll)

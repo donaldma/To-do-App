@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import * as actions from '../actions';
 import _ from 'lodash';
 import Moment from 'react-moment';
-import NavBar from './nav';
+import NavBarAll from './nav_all';
 
 class AllTasks extends Component {
   componentDidMount() {
@@ -40,7 +40,7 @@ class AllTasks extends Component {
     if(_.size(this.props.allTasks) === 0) {
       return (
         <div>
-          <NavBar />
+          <NavBarAll />
           <div className="row">
             <div className="col-md-12">
               <div className="jumbotron">
@@ -60,7 +60,7 @@ class AllTasks extends Component {
     }
     return(
       <div>
-        <NavBar />        
+        <NavBarAll  />        
         <div className="row">
           <div className="col-md-12">
             <div className="jumbotron">
