@@ -8,6 +8,7 @@ import Moment from 'react-moment';
 import SideBar from './sidebar';
 import NewUserModal from './new_user';
 import NewTaskModal from './new_task';
+import NavBar from './nav';
 
 class UserTasks extends Component {
   constructor(props) {
@@ -114,11 +115,8 @@ class UserTasks extends Component {
           <div className="welcome">
             <h3>No Tasks</h3>
             <div className="add-button">
-              <button className="main-button-tasks" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
-            </div>
-            <div className="mobile-tasks">
-              Please visit desktop version to add new tasks/users (Working on a solution)
-            </div>           
+              <button className="main-button" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
+            </div>        
             <NewTaskModal renderField={this.renderField} onSubmit={this.onTaskSubmit} /> 
           </div>
         );
@@ -191,6 +189,7 @@ class UserTasks extends Component {
     if(_.size(this.props.usersTasks) === 0) { 
       return (
         <div>
+          <NavBar selectedUser={this.selectedUser} onDeleteUserClick={this.onDeleteUserClick} />
           <div className="row">
             <div className="col-md-12">
               <div className="jumbotron home-jumbo">
@@ -224,6 +223,7 @@ class UserTasks extends Component {
     
     return(
       <div>
+        <NavBar selectedUser={this.selectedUser} onDeleteUserClick={this.onDeleteUserClick} />
         <div className="row">
           <div className="col-md-12">
             <div className="jumbotron home-jumbo">
@@ -246,11 +246,8 @@ class UserTasks extends Component {
                 {this.renderTasks()}
               </ul>
               <div className="add-button">
-                <button className="main-button-tasks" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
-              </div>
-              <div className="mobile-tasks">
-                Please visit desktop version to add new tasks/users (Working on a solution)
-              </div>    
+                <button className="main-button" data-toggle="modal" data-target="#tasks-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add Task</button>
+              </div>  
             </div>
           </div>
         </div>

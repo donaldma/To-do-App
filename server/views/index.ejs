@@ -14,8 +14,11 @@
 </head>
 
 <body>
-  <!-- <div class="animationload">
+  <div class="animationload">
     <div class="loader">&nbsp;</div>
+  </div>
+  <div class="container">
+    <div id="react-root"></div>
   </div>
   <script>
     $(window).ready(function() {
@@ -23,10 +26,12 @@
         $('.animationload').hide();
       }, 2000);
     });
-  </script> -->
-  <div class="container">
-    <div id="react-root"></div>
-  </div>
+  </script>
+  <script >
+    $(document).on('click',function(){
+      $('.collapse').collapse('hide');
+    })
+    </script>
   <script src="http://localhost:8080/bundle.js"></script>
 </body>
 

@@ -17,7 +17,6 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>  
     <BrowserRouter>
       <div>
-        <NavBar />
         <Switch>
           <Route path="/tasks" component={AllTasks} />
           <Route path="/" component={UserTasks} />

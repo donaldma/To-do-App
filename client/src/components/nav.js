@@ -18,7 +18,7 @@ class NavBar extends Component {
     return _.map(this.props.users, (user, index) => {
       return (
         <li className="mobile-nav" key={index} >
-          <a href="#" onClick={ () => this.props.selectUserTasks(user.id)}>{user.name}</a>
+          <a href="#" onClick={this.props.selectedUser.bind(this, user.id)} >{user.name}</a>
         </li>
       );
     })
@@ -76,6 +76,7 @@ class NavBar extends Component {
               <li className="full-nav"><Link to={'/tasks'}><i className="fa fa-list" aria-hidden="true"></i> All Tasks</Link></li>
               <li className="mobile-nav"><a href='/'><i className="fa fa-user-circle-o" aria-hidden="true"></i> Users Tasks</a></li>
               <li className="mobile-nav"><a href='/tasks'><i className="fa fa-list" aria-hidden="true"></i> All Tasks</a></li>
+              <li className="mobile-nav"><a href="#" data-toggle="modal" data-target="#users-modal"><i className="fa fa-plus" aria-hidden="true"></i> Add User</a></li>
               <li className="seperator"></li>
               {this.renderUsers()}              
             </ul>

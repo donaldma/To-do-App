@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import * as actions from '../actions';
 import _ from 'lodash';
 import Moment from 'react-moment';
+import NavBar from './nav';
 
 class AllTasks extends Component {
   componentDidMount() {
@@ -39,6 +40,7 @@ class AllTasks extends Component {
     if(_.size(this.props.allTasks) === 0) {
       return (
         <div>
+          <NavBar />
           <div className="row">
             <div className="col-md-12">
               <div className="jumbotron">
@@ -57,27 +59,34 @@ class AllTasks extends Component {
       );
     }
     return(
-      <div className="row">
-        <div className="col-md-12">
-          <div className="jumbotron">
-            <h1 className="jumbo-head">
-              All Tasks
-            </h1>
+      <div>
+        <NavBar />        
+        <div className="row">
+          <div className="col-md-12">
+            <div className="jumbotron">
+              <h1 className="jumbo-head">
+                All Tasks
+              </h1>
+            </div>
           </div>
-          <div className="table-responsive">          
-          <table className="table">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Task</th>
-                <th>Date Created</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderTasks()}
-            </tbody>
-          </table>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <div className="table-responsive">          
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Task</th>
+                  <th>Date Created</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderTasks()}
+              </tbody>
+            </table>
+            </div>
           </div>
         </div>
       </div>
