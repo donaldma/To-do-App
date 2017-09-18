@@ -27,10 +27,10 @@ class UserTasks extends Component {
   
   onSubmit = (values) => {
     const lowerPropsUsersArr = _.map(this.props.users, user => {
-      return _.lowerCase(user.name)
+      return (user.name).toLowerCase();
     })
     
-    const lowerSubmittedUser = _.lowerCase(values.name);
+    const lowerSubmittedUser = (values.name).toLowerCase();
     function isSame(user) { 
       return user === lowerSubmittedUser
     }

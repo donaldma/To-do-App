@@ -1,4 +1,5 @@
 const ENV = process.env.ENV || "development";
+const PORT = 9000;
 const express = require('express');  
 const app = express();
 const http = require('http'); 
@@ -45,6 +46,6 @@ app.use((req, res, next) => {
   res.redirect('/404');
 })
 
-server.listen( process.env.PORT || 9000, () => {
-  console.log('Server running');
+server.listen( process.env.PORT || PORT, () => {
+  console.log('Server running on', PORT);
 });
